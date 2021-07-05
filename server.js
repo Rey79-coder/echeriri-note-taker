@@ -7,8 +7,8 @@ const uuid = require("uuid");
 const { DH_CHECK_P_NOT_SAFE_PRIME, SSL_OP_SSLEAY_080_CLIENT_DH_BUG } = require("constants");
 
 // HANDLING ASYNCHRONOUS PROCESSES
-const readFileSync = util.promisify(fs.readFile);
-const writeFileSync = util.promisify(fs.writeFile);
+const readFileAsync = util.promisify(fs.readFile);
+const writeFileAsync = util.promisify(fs.writeFile);
 
 const app = express();
 var PORT = process.env.PORT || 3017;
@@ -24,24 +24,24 @@ app.use(express.static("./public"));
 
 //Setting API's ROUTES
 // GET API
-app.get("/api/note", function(req, res) {
-    readFileSync("./db/db.json", "utf8").then(function(data) {
+app.get("/api/notes", function(req, res) {
+    readFileAsync("./db/db.json", "utf8").then(function(data) {
         notes = [].concat(JSON.parse(data))
         res.json(notes);
     });
 })
 
 // POST API
-app.post("/api/note", function(req, res) {
+app.post("/api/notes", function(req, res) {
     const note = req.body;
-    readFileSync("./db/db.json", "utf8").then(function(data) {
+    readFileAsync("./db/db.json", "utf8").then(function(data) {
         const notes = [].concat(JSON.parse(data));
         note.id = notes.length + 1
         notes.push(notes);
             return notes
     }).then(function(notes) {
-        writeFileSync("./db/db.json", JSON.stringify(notes))
-        res.json(note);
+        writeFileAsync("./db/db.json", JSON.stringify(notes))
+        res.json(notes);
     })
 });
 
@@ -66,7 +66,7 @@ app.delete("/api/note/:id", function(req, res) {
     })
 
 // HTML ROUTES
-app.get("/note", function(red, res) {
+app.get("/notes", function(red, res) {
     res.sendFile(path.join(__dirname, "./public/notes.html"))
 });
 
