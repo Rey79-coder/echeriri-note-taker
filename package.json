@@ -7,10 +7,10 @@
     "test": "Express",
     "start": "node server"
   },
-
   "author": "Rey79-coder",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "uuid": "^8.3.2"
   }
 }
