@@ -2,7 +2,7 @@ const express = require("express");
 const fs = require("fs");
 const notes = require("./db/db.json");
 const path = require("path");
-const uuid = require("uuid");
+// const uuid = require("uuid");
 const { DH_CHECK_P_NOT_SAFE_PRIME } = require("constants");
 
 
@@ -17,7 +17,7 @@ app.use(express.static("public"));
 //Setting routes for APIs
 //This gets notes saved and joins it in db.json
 app.get("/api/notes", (req, res) => {
-    res.sendFile(path.join(__dirname, "/db/db.json"))
+    res.sendFile(path.join(__dirname, "./db/db.json"))
 });
 
 // Post function to add new notes to db.json
@@ -42,11 +42,11 @@ app.delete("/api/notes/:id", (req, res) => {
 //HTML calls
 //calls home page
 app.get("/", function (req, res) {
-    res.sendFile(path.join(__dirname, "/public/index.html"));
+    res.sendFile(path.join(__dirname, "./public/index.html"));
 });
 //call for notes.html
 app.get("/notes", function (req, res) {
-    res.sendFile(path.join(__dirname, "/public/notes.html"));
+    res.sendFile(path.join(__dirname, "./public/index.html"));
 });
 
 //Start listen
