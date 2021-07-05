@@ -1,14 +1,15 @@
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
-// const util = require("util")
+const util = require("util")
 const notes = require("./db/db.json");
 const uuid = require("uuid");
 const { DH_CHECK_P_NOT_SAFE_PRIME, SSL_OP_SSLEAY_080_CLIENT_DH_BUG } = require("constants");
 
 // HANDLING ASYNCHRONOUS PROCESSES
-// const readFileAsync = util.promisify(fs.readFile);
-// const writeFileAsync = util.promisify(fs.writeFile);
+
+const readFileAsync = util.promisify(fs.readFile);
+const writeFileAsync = util.promisify(fs.writeFile);
 
 const app = express();
 var PORT = process.env.PORT || 3017;
@@ -21,7 +22,6 @@ app.use(express.json());
 app.use(express.static("./public"));
 
 
-
 //GET API db.json
 app.get("/api/notes", (req, res) => {
     res.sendFile(path.join(__dirname, "./db/db.json"))
@@ -29,7 +29,7 @@ app.get("/api/notes", (req, res) => {
 
 // Post function to add new notes to db.json
 app.post("/api/notes", (req, res) => {
-    const notes = JSON.parse(fs.readFileSync("./db/db.json"));
+    const notes = JSON.parse(fs.readFileAsync("./db/db.json"));
     const newNotes = req.body;
     newNotes.id = uuid.v4();
     notes.push(newNotes);
@@ -39,9 +39,9 @@ app.post("/api/notes", (req, res) => {
 
 //used for deleting notes
 app.delete("/api/notes/:id", (req, res) => {
-    const notes = JSON.parse(fs.readFileSync("./db/db.json"));
+    const notes = JSON.parse(fs.readFileAsync("./db/db.json"));
     const delNote = notes.filter((rmvNote) => rmvNote.id !== req.params.id);
-    fs.writeFileSync("./db/db.json", JSON.stringify(delNote));
+    fs.writeFileAsync("./db/db.json", JSON.stringify(delNote));
     res.json(delNote);
 })
 
@@ -51,6 +51,7 @@ app.delete("/api/notes/:id", (req, res) => {
 app.get("/", function (req, res) {
     res.sendFile(path.join(__dirname, "./public/index.html"));
 });
+
 //call for notes.html
 app.get("/notes", function (req, res) {
     res.sendFile(path.join(__dirname, "./public/index.html"));
