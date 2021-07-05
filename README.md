@@ -35,5 +35,8 @@
 #[Video](https://youtu.be/5JcQzPESWo4)
 
 For illustration purposes here is a snapshot of real live instance:
-#[Images]()
+#[Images](https://raw.githubusercontent.com/Rey79-coder/echeriri-note-taker/main/public/assets/img/echeriri-note-taker.png)
 
+#[Heroku] (https://echeriri-note-taker.herokuapp.com/)
+
+#[GitHub] (https://rey79-coder.github.io/echeriri-note-taker/)
